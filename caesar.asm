@@ -2,11 +2,11 @@
 
 #include <stdio.s>
 
-  LDA #<ISR
-  STA $FFFE
-  LDA #>ISR
-  STA $FFFF
-  CLI
+LDA #<ISR
+STA $FFFE
+LDA #>ISR
+STA $FFFF
+CLI
 
 loop:
 	wai
@@ -14,8 +14,7 @@ loop:
 
 LDX #$0 ; We use X to keep state; 0=null, 1=encrypt, 2=decrypt
 
-; Start ISR
-ISR pha
+ISR pha ; Start ISR
 
 ; --------- Setup end --------- 
 
@@ -33,27 +32,25 @@ compare_and_set_flag:
 	BEQ set_encrypt_flag
 	CPX #"d"
 	BEQ set_decrypt_flag
-	JMP error
+	JMP error ; khoor
 
 set_encrypt_flag:
 	LDX #$1
-	LDA #"5"
-	STA putc
 	JMP done
 
 set_decrypt_flag:
 	LDX #$2
-	LDA #"4"
-	STA putc
 	JMP done
 
 encrypt:
-	LDA #"E"
+	LDA getc
+	ADC #$4
 	STA putc
 	JMP done
 
 decrypt:
-	LDA #"D"
+	LDA getc
+	SBC #$5
 	STA putc
 
 done:
