@@ -32,7 +32,7 @@ compare_and_set_flag:
 	BEQ set_encrypt_flag
 	CPX #"d"
 	BEQ set_decrypt_flag
-	JMP error ; khoor
+	JMP error
 
 set_encrypt_flag:
 	LDX #$1
@@ -44,13 +44,14 @@ set_decrypt_flag:
 
 encrypt:
 	LDA getc
-	ADC #$4
+	CLC
+	ADC #4
 	STA putc
 	JMP done
 
 decrypt:
 	LDA getc
-	SBC #$5
+	SBC #4
 	STA putc
 
 done:

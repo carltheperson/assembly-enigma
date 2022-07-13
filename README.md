@@ -15,3 +15,7 @@ git clone https://github.com/haldean/x6502
 **Step 3: Compile program**
 
 **Step 4: Run program**
+
+```sh
+xa -w -Istdlib/ ../caesar.asm  && ./x6502 a.o65
+```
