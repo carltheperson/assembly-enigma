@@ -81,11 +81,28 @@ rotate_r3:
 ; I need a function that takes.
 ; A letter + offset = new offset
 
+
 done_rotations:
-	CLC								; Clear carry flag
+	CLC
+
+
+	LDX #$1F ; 31
+	LDA #$1F
+  ADC #$66
+	TXA
+	BVC continue0
+	SBC #$1A ; 26
+continue0:
+	ADC #$30
+	STA putc ; 5
+
+	; STA putc
+
+
 	; --- Take typed char and get placement on rotor1 with offset.
 	LDA getc
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+	CLC								; Clear carry flag
 	ADC r1offset 			; Adding offset to it
 	CMP #$1A ; >= 26 dec
 	BNE continue1
@@ -94,7 +111,39 @@ done_rotations:
 continue1:
 	TAX
 	LDA r1start, X
-	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+
+
+
+; 	; STA putc					; Print char
+; 	; --- Take the char r1 points to and get placement on rotor2 with offset.
+; 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+; 	CLC								; Clear carry flag
+; 	ADC r2offset 			; Adding offset to it
+; 	CMP #$A ; >= 26 dec
+; 	BNE continue2
+; 	TAX
+; 	LDA #$A
+; 	SBC #$A ; -  26 dec
+; 	; ------
+; continue2:
+; 	TAX
+; 	LDA r2start, X
+; 	; STA putc					; Print char
+; 	; --- Take the char r2 points to and get placement on rotor3 with offset.
+; 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+; 	CLC								; Clear carry flag
+; 	ADC r3offset 			; Adding offset to it
+; 	CMP #$A ; >= 26 dec
+; 	BNE continue3
+; 	SBC #$A ; -  26 dec
+; 	; ------
+; continue3:
+; 	TAX
+; 	LDA r3start, X
+; 	; STA putc					; Print char
+
+
+
 
 
 	
