@@ -78,20 +78,15 @@ rotate_r3:
 	INX
 	STX r3offset
 
-; I need a function that takes.
-; A letter + offset = new offset
-
 
 done_rotations:
 	CLC
 
-index1:
-	; --- Take typed char and get placement on rotor1 with offset.
+index1: ; --- Take typed char and get placement on rotor1 with offset.
 	LDA getc
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC								; Clear carry flag
-	ADC r1offset 			; Adding offset to it
-	; Now we have a number like (1 to 26) + (1 to 26) in A
+	ADC r1offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
 	TAX 
 	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
 	BVC done1 ; If not overflovn
@@ -102,11 +97,9 @@ done1:
 	LDA r1start, X
 	STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-index2:
-	; --- Take the char r1 points to and get placement on rotor2 with offset.
+index2: 	; --- Take the char r1 points to and get placement on rotor2 with offset.
 	CLC								; Clear carry flag
-	ADC r2offset 			; Adding offset to it
-	; Now we have a number like (1 to 26) + (1 to 26) in A
+	ADC r2offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
 	TAX
 	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
 	BVC done2 ; If not overflovn
@@ -117,35 +110,20 @@ done2:
 	LDA r2start, X
 	STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+index3: 	; --- Take the char r2 points to and get placement on rotor3 with offset.
+	CLC								; Clear carry flag
+	ADC r3offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
+	TAX
+	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+	BVC done3 ; If not overflovn
+	TXA
+	SBC #$19 ;  - 25
+	TAX
+done3:
+	LDA r2start, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 
-
-; 	; STA putc					; Print char
-; 	; --- Take the char r1 points to and get placement on rotor2 with offset.
-; 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-; 	CLC								; Clear carry flag
-; 	ADC r2offset 			; Adding offset to it
-; 	CMP #$A ; >= 26 dec
-; 	BNE continue2
-; 	TAX
-; 	LDA #$A
-; 	SBC #$A ; -  26 dec
-; 	; ------
-; continue2:
-; 	TAX
-; 	LDA r2start, X
-; 	; STA putc					; Print char
-; 	; --- Take the char r2 points to and get placement on rotor3 with offset.
-; 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-; 	CLC								; Clear carry flag
-; 	ADC r3offset 			; Adding offset to it
-; 	CMP #$A ; >= 26 dec
-; 	BNE continue3
-; 	SBC #$A ; -  26 dec
-; 	; ------
-; continue3:
-; 	TAX
-; 	LDA r3start, X
-; 	; STA putc					; Print char
 
 
 
