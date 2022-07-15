@@ -159,3 +159,57 @@ load_r3:
 	STA r3start + 25
 	LDA #r3_z
 	STA r3start + 26
+
+load_ref:
+	LDA #ref_a
+	STA refstart + 1
+	LDA #ref_b
+	STA refstart + 2
+	LDA #ref_c
+	STA refstart + 3
+	LDA #ref_d
+	STA refstart + 4
+	LDA #ref_e
+	STA refstart + 5
+	LDA #ref_f
+	STA refstart + 6
+	LDA #ref_g
+	STA refstart + 7
+	LDA #ref_h
+	STA refstart + 8
+	LDA #ref_i
+	STA refstart + 9
+	LDA #ref_j
+	STA refstart + 10
+	LDA #ref_k
+	STA refstart + 11
+	LDA #ref_l
+	STA refstart + 12
+	LDA #ref_m
+	STA refstart + 13
+	LDA #ref_n
+	STA refstart + 14
+	LDA #ref_o
+	STA refstart + 15
+	LDA #ref_p
+	STA refstart + 16
+	LDA #ref_q
+	STA refstart + 17
+	LDA #ref_r
+	STA refstart + 18
+	LDA #ref_s
+	STA refstart + 19
+	LDA #ref_t
+	STA refstart + 20
+	LDA #ref_u
+	STA refstart + 21
+	LDA #ref_v
+	STA refstart + 22
+	LDA #ref_w
+	STA refstart + 23
+	LDA #ref_x
+	STA refstart + 24
+	LDA #ref_y
+	STA refstart + 25
+	LDA #ref_z
+	STA refstart + 26

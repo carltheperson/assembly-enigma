@@ -3,6 +3,7 @@
 r1start = $AA00
 r2start = $AA00 + 27
 r3start = $AA00 + 54
+refstart = $AA00 + 81
 
 r1offset = $1F
 r2offset = $1E
@@ -32,11 +33,6 @@ loop:
   JMP loop
 
 ISR pha
-
-; Remember You can use subrutines. You just have to know where to return.
-; Use X, Y, A for parameters and return.
-
-
 
 ;  ----- Rotate rotors -----
 
@@ -81,7 +77,6 @@ rotate_r3:
 
 done_rotations:
 	CLC
-
 index1: ; --- Take typed char and get placement on rotor1 with offset.
 	LDA getc
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
@@ -126,43 +121,7 @@ done3:
 
 
 
-
-
-
 	
-
-	; SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-	; CLC								; Clear carry flag
-	; LDA r1start, X
-	; SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-
-	; TAX
-	; LDA r2start, X
-	; STA putc					; Print char
-	
-
-	; You now have a letter. 
-	; This letter should be converted to a number.
-	; Then you will know how to index the second rotor
-
-	; LDX r2offset
-	; CLC								; Clear carry flag
-	; LDA r2start, X
-	; STA putc					; Print char
-
-	; LDA r1offset
-	; ADC #$40 ; to ascii letter
-	; STA putc					; Print char
-	; ;
-	; 	; Print 2
-	; LDA r2offset
-	; ADC #$40 ; to ascii letter
-	; STA putc					; Print char
-
-	; LDA r3offset
-	; ADC #$40 ; to ascii letter
-	; ; STA putc					; Print char
-	; ;
 		; Print -
 	LDA #" "
 	STA putc					; Print char
