@@ -85,26 +85,38 @@ rotate_r3:
 done_rotations:
 	CLC
 
+index1:
 	; --- Take typed char and get placement on rotor1 with offset.
 	LDA getc
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC								; Clear carry flag
 	ADC r1offset 			; Adding offset to it
 	; Now we have a number like (1 to 26) + (1 to 26) in A
-	TAX
+	TAX 
 	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
-	BVC continue1 ; If not overflovn
-	BVS overflovn1 ; If overflovn
-overflovn1:
+	BVC done1 ; If not overflovn
 	TXA
 	SBC #$19 ;  - 25
 	TAX
-	; LDA #"G"
-	; STA putc
-continue1:
+done1:
 	LDA r1start, X
 	STA putc					; Print char
-
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+index2:
+	; --- Take the char r1 points to and get placement on rotor2 with offset.
+	CLC								; Clear carry flag
+	ADC r2offset 			; Adding offset to it
+	; Now we have a number like (1 to 26) + (1 to 26) in A
+	TAX
+	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+	BVC done2 ; If not overflovn
+	TXA
+	SBC #$19 ;  - 25
+	TAX
+done2:
+	LDA r2start, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 
 
 ; 	; STA putc					; Print char
