@@ -85,32 +85,25 @@ rotate_r3:
 done_rotations:
 	CLC
 
-
-	LDX #$1F ; 31
-	LDA #$1F
-  ADC #$66
-	TXA
-	BVC continue0
-	SBC #$1A ; 26
-continue0:
-	ADC #$30
-	STA putc ; 5
-
-	; STA putc
-
-
 	; --- Take typed char and get placement on rotor1 with offset.
 	LDA getc
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC								; Clear carry flag
 	ADC r1offset 			; Adding offset to it
-	CMP #$1A ; >= 26 dec
-	BNE continue1
-	SBC #$1A ; -  26 dec
-	; ----
-continue1:
+	; Now we have a number like (1 to 26) + (1 to 26) in A
 	TAX
+	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+	BVC continue1 ; If not overflovn
+	BVS overflovn1 ; If overflovn
+overflovn1:
+	TXA
+	SBC #$19 ;  - 25
+	TAX
+	; LDA #"G"
+	; STA putc
+continue1:
 	LDA r1start, X
+	STA putc					; Print char
 
 
 
