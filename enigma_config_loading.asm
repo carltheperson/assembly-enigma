@@ -1,161 +1,161 @@
 load_r1:
 	LDA #r1_a
-	STA r1start
-	LDA #r1_b
 	STA r1start + 1
-	LDA #r1_c
+	LDA #r1_b
 	STA r1start + 2
-	LDA #r1_d
+	LDA #r1_c
 	STA r1start + 3
-	LDA #r1_e
+	LDA #r1_d
 	STA r1start + 4
-	LDA #r1_f
+	LDA #r1_e
 	STA r1start + 5
-	LDA #r1_g
+	LDA #r1_f
 	STA r1start + 6
-	LDA #r1_h
+	LDA #r1_g
 	STA r1start + 7
-	LDA #r1_i
+	LDA #r1_h
 	STA r1start + 8
-	LDA #r1_j
+	LDA #r1_i
 	STA r1start + 9
-	LDA #r1_k
+	LDA #r1_j
 	STA r1start + 10
-	LDA #r1_l
+	LDA #r1_k
 	STA r1start + 11
-	LDA #r1_m
+	LDA #r1_l
 	STA r1start + 12
-	LDA #r1_n
+	LDA #r1_m
 	STA r1start + 13
-	LDA #r1_o
+	LDA #r1_n
 	STA r1start + 14
-	LDA #r1_p
+	LDA #r1_o
 	STA r1start + 15
-	LDA #r1_q
+	LDA #r1_p
 	STA r1start + 16
-	LDA #r1_r
+	LDA #r1_q
 	STA r1start + 17
-	LDA #r1_s
+	LDA #r1_r
 	STA r1start + 18
-	LDA #r1_t
+	LDA #r1_s
 	STA r1start + 19
-	LDA #r1_u
+	LDA #r1_t
 	STA r1start + 20
-	LDA #r1_v
+	LDA #r1_u
 	STA r1start + 21
-	LDA #r1_w
+	LDA #r1_v
 	STA r1start + 22
-	LDA #r1_x
+	LDA #r1_w
 	STA r1start + 23
-	LDA #r1_y
+	LDA #r1_x
 	STA r1start + 24
-	LDA #r1_z
+	LDA #r1_y
 	STA r1start + 25
+	LDA #r1_z
+	STA r1start + 26
 
 load_r2:
 	LDA #r2_a
-	STA r2start
-	LDA #r2_b
 	STA r2start + 1
-	LDA #r2_c
+	LDA #r2_b
 	STA r2start + 2
-	LDA #r2_d
+	LDA #r2_c
 	STA r2start + 3
-	LDA #r2_e
+	LDA #r2_d
 	STA r2start + 4
-	LDA #r2_f
+	LDA #r2_e
 	STA r2start + 5
-	LDA #r2_g
+	LDA #r2_f
 	STA r2start + 6
-	LDA #r2_h
+	LDA #r2_g
 	STA r2start + 7
-	LDA #r2_i
+	LDA #r2_h
 	STA r2start + 8
-	LDA #r2_j
+	LDA #r2_i
 	STA r2start + 9
-	LDA #r2_k
+	LDA #r2_j
 	STA r2start + 10
-	LDA #r2_l
+	LDA #r2_k
 	STA r2start + 11
-	LDA #r2_m
+	LDA #r2_l
 	STA r2start + 12
-	LDA #r2_n
+	LDA #r2_m
 	STA r2start + 13
-	LDA #r2_o
+	LDA #r2_n
 	STA r2start + 14
-	LDA #r2_p
+	LDA #r2_o
 	STA r2start + 15
-	LDA #r2_q
+	LDA #r2_p
 	STA r2start + 16
-	LDA #r2_r
+	LDA #r2_q
 	STA r2start + 17
-	LDA #r2_s
+	LDA #r2_r
 	STA r2start + 18
-	LDA #r2_t
+	LDA #r2_s
 	STA r2start + 19
-	LDA #r2_u
+	LDA #r2_t
 	STA r2start + 20
-	LDA #r2_v
+	LDA #r2_u
 	STA r2start + 21
-	LDA #r2_w
+	LDA #r2_v
 	STA r2start + 22
-	LDA #r2_x
+	LDA #r2_w
 	STA r2start + 23
-	LDA #r2_y
+	LDA #r2_x
 	STA r2start + 24
-	LDA #r2_z
+	LDA #r2_y
 	STA r2start + 25
+	LDA #r2_z
+	STA r2start + 26
 
 load_r3:
 	LDA #r3_a
-	STA r3start
-	LDA #r3_b
 	STA r3start + 1
-	LDA #r3_c
+	LDA #r3_b
 	STA r3start + 2
-	LDA #r3_d
+	LDA #r3_c
 	STA r3start + 3
-	LDA #r3_e
+	LDA #r3_d
 	STA r3start + 4
-	LDA #r3_f
+	LDA #r3_e
 	STA r3start + 5
-	LDA #r3_g
+	LDA #r3_f
 	STA r3start + 6
-	LDA #r3_h
+	LDA #r3_g
 	STA r3start + 7
-	LDA #r3_i
+	LDA #r3_h
 	STA r3start + 8
-	LDA #r3_j
+	LDA #r3_i
 	STA r3start + 9
-	LDA #r3_k
+	LDA #r3_j
 	STA r3start + 10
-	LDA #r3_l
+	LDA #r3_k
 	STA r3start + 11
-	LDA #r3_m
+	LDA #r3_l
 	STA r3start + 12
-	LDA #r3_n
+	LDA #r3_m
 	STA r3start + 13
-	LDA #r3_o
+	LDA #r3_n
 	STA r3start + 14
-	LDA #r3_p
+	LDA #r3_o
 	STA r3start + 15
-	LDA #r3_q
+	LDA #r3_p
 	STA r3start + 16
-	LDA #r3_r
+	LDA #r3_q
 	STA r3start + 17
-	LDA #r3_s
+	LDA #r3_r
 	STA r3start + 18
-	LDA #r3_t
+	LDA #r3_s
 	STA r3start + 19
-	LDA #r3_u
+	LDA #r3_t
 	STA r3start + 20
-	LDA #r3_v
+	LDA #r3_u
 	STA r3start + 21
-	LDA #r3_w
+	LDA #r3_v
 	STA r3start + 22
-	LDA #r3_x
+	LDA #r3_w
 	STA r3start + 23
-	LDA #r3_y
+	LDA #r3_x
 	STA r3start + 24
-	LDA #r3_z
+	LDA #r3_y
 	STA r3start + 25
+	LDA #r3_z
+	STA r3start + 26

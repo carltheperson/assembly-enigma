@@ -1,8 +1,8 @@
 #include <stdio.s>
 
 r1start = $AA00
-r2start = $AA00 + 26
-r3start = $AA00 + 52
+r2start = $AA00 + 27
+r3start = $AA00 + 54
 
 r1offset = $1F
 r2offset = $1E
@@ -21,8 +21,9 @@ STA $FFFF
 CLI
 
 set_offsets:
-	LDA #$1
+	LDA #$0
 	STA r1offset
+	LDA #$1
 	STA r2offset
 	STA r3offset
 
@@ -42,7 +43,7 @@ ISR pha
 possibly_rotate_r1:
 	CLC								; Clear carry flag
 	LDX r1offset
-	CPX #$19 ; 25 dec
+	CPX #$1A ; 25 dec
 	BNE rotate_r1
 	LDX	#$0
 rotate_r1:
@@ -77,23 +78,59 @@ rotate_r3:
 	INX
 	STX r3offset
 
-
+; I need a function that takes.
+; A letter + offset = new offset
 
 done_rotations:
 	CLC								; Clear carry flag
-	LDA r1offset
-	ADC #$40 ; to ascii letter
-	STA putc					; Print char
-	;
-		; Print 2
-	LDA r2offset
-	ADC #$40 ; to ascii letter
-	STA putc					; Print char
+	; --- Take typed char and get placement on rotor1 with offset.
+	LDA getc
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+	ADC r1offset 			; Adding offset to it
+	CMP #$1A ; >= 26 dec
+	BNE continue1
+	SBC #$1A ; -  26 dec
+	; ----
+continue1:
+	TAX
+	LDA r1start, X
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 
-	LDA r3offset
-	ADC #$40 ; to ascii letter
+
+	
+
+	; SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+	; CLC								; Clear carry flag
+	; LDA r1start, X
+	; SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+
+	; TAX
+	; LDA r2start, X
 	; STA putc					; Print char
-	;
+	
+
+	; You now have a letter. 
+	; This letter should be converted to a number.
+	; Then you will know how to index the second rotor
+
+	; LDX r2offset
+	; CLC								; Clear carry flag
+	; LDA r2start, X
+	; STA putc					; Print char
+
+	; LDA r1offset
+	; ADC #$40 ; to ascii letter
+	; STA putc					; Print char
+	; ;
+	; 	; Print 2
+	; LDA r2offset
+	; ADC #$40 ; to ascii letter
+	; STA putc					; Print char
+
+	; LDA r3offset
+	; ADC #$40 ; to ascii letter
+	; ; STA putc					; Print char
+	; ;
 		; Print -
 	LDA #" "
 	STA putc					; Print char
