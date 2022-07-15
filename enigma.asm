@@ -4,9 +4,9 @@ r1start = $AA00
 r2start = $AA00 + 26
 r3start = $AA00 + 52
 
-r1offset = $1D
+r1offset = $1F
 r2offset = $1E
-r3offset = $1F
+r3offset = $0D
 
 r1rotor_notch = $A ; J.  This will decide when r2 will rotate
 r2rotor_notch = $A ; E. This will decide when r3 will rotate
@@ -40,6 +40,7 @@ ISR pha
 ;  ----- Rotate rotors -----
 
 possibly_rotate_r1:
+	CLC								; Clear carry flag
 	LDX r1offset
 	CPX #$19 ; 25 dec
 	BNE rotate_r1
@@ -50,6 +51,7 @@ rotate_r1:
 	STX r1offset
 possibly_rotate_r2:
 	; X holds r1 
+	LDX r1offset
 	CPX #r1rotor_notch ; Does r1 hit the notch? Should r2 rotate?
 	BNE done_rotations 
 	; We now want to rotate r2
@@ -68,6 +70,8 @@ possibly_rotate_r3:
 	; We now want to rotate r3
 	LDX r3offset
 	CPX #$1A ; 26 dec
+	BNE rotate_r3
+	LDX	#$0
 rotate_r3:
 	CLC								; Clear carry flag
 	INX
@@ -76,8 +80,7 @@ rotate_r3:
 
 
 done_rotations:
-	
-
+	CLC								; Clear carry flag
 	LDA r1offset
 	ADC #$40 ; to ascii letter
 	STA putc					; Print char
@@ -89,7 +92,7 @@ done_rotations:
 
 	LDA r3offset
 	ADC #$40 ; to ascii letter
-	STA putc					; Print char
+	; STA putc					; Print char
 	;
 		; Print -
 	LDA #" "
