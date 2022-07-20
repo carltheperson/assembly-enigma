@@ -50,7 +50,7 @@ possibly_rotate_r2:
 	; X holds r1 
 	LDX r1offset
 	CPX #r1rotor_notch ; Does r1 hit the notch? Should r2 rotate?
-	BNE done_rotations 
+	BNE start_indexing 
 	; We now want to rotate r2
 	LDX r2offset
 	CPX #$1A ; 26 dec
@@ -63,7 +63,7 @@ rotate_r2:
 possibly_rotate_r3:
 	; X holds r2
 	CPX #r2rotor_notch ; Does r2 hit the notch? Should r3 rotate?
-	BNE done_rotations 
+	BNE start_indexing 
 	; We now want to rotate r3
 	LDX r3offset
 	CPX #$1A ; 26 dec
@@ -74,8 +74,9 @@ rotate_r3:
 	INX
 	STX r3offset
 
+; ------ Passing through the rotors the first time -------
 
-done_rotations:
+start_indexing:
 	CLC
 index1: ; --- Take typed char and get placement on rotor1 with offset.
 	LDA getc
@@ -115,13 +116,76 @@ index3: 	; --- Take the char r2 points to and get placement on rotor3 with offse
 	SBC #$19 ;  - 25
 	TAX
 done3:
-	LDA r2start, X
+	LDA r3start, X
 	STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 
 
 
-	
+; ---------- Getting reflected back using the reflector --------
+
+reflection:
+	CLC
+	TAX
+	LDA refstart, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+
+
+; ------ Passing through the rotors the second time (Back) -------
+
+start_indexing_b:
+	CLC
+index3_b: 	; --- Take the char r2 points to and get placement on rotor3 with offset.
+	CLC								; Clear carry flag
+	ADC r3offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
+	TAX
+	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+	BVC done3_b ; If not overflovn
+	TXA
+	SBC #$19 ;  - 25
+	TAX
+done3_b:
+	LDA r3start, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+index2_b: 	; --- Take the char r1 points to and get placement on rotor2 with offset.
+	CLC								; Clear carry flag
+	ADC r2offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
+	TAX
+	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+	BVC done2_b ; If not overflovn
+	TXA
+	SBC #$19 ;  - 25
+	TAX
+done2_b:
+	LDA r2start, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+index1_b: ; --- 
+	CLC								; Clear carry flag
+	ADC r1offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
+	TAX 
+	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+	BVC done1_b ; If not overflovn
+	TXA
+	SBC #$19 ;  - 25
+	TAX
+done1_b:
+	LDA r1start, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+
+
+
+
+
+; Try setting the rotors to the thing in the video and see what happens
+; Something is wrong with the offset. Imagine the wheels lined up
+
+
+
+
 		; Print -
 	LDA #" "
 	STA putc					; Print char
