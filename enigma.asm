@@ -8,7 +8,6 @@ refstart = $AA00 + 81
 r1offset = $1F
 r2offset = $1E
 r3offset = $0D
-temp = $2F
 
 r1rotor_notch = $A ; J.  This will decide when r2 will rotate
 r2rotor_notch = $A ; E. This will decide when r3 will rotate
@@ -151,81 +150,57 @@ reflection:
 start_indexing_b:
 	CLC
 index3_b: 	; --- Take the char r2 points to and get placement on rotor3 with offset.
-	STA temp
-	; L is in X
-	LDA #$1A
-	ADC r3offset
-
-
-
-	; (26 + Ø) is in A
-	CLC
-	SBC temp
-	CLC
-
-	; ADC #$30
-	; STA putc					; Print char
-
-	; A is now 0 - 52
-	TAX
-	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
-	BVC done3_b ; If not overflovn
-	SBC #$1A
-	TAX
-
-
-	
-	; SEC 
-	; SBC r3offset ; Subtracting offset from it
-	; BCS done3_b
-	; EOR #$ff
-	; ADC #$01
+	SEC 
+	SBC r3offset ; Subtracting offset from it
+	BCS done3_b
+	EOR #$ff
+	ADC #$01
 done3_b:
 	CLC
-	TXA
+	TAX
 	LDA r3start, X
 	STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-; index2_b: 	; --- Take the char r1 points to and get placement on rotor2 with offset.
-; 	SEC 
-; 	SBC r2offset ; Subtracting offset from it
-; 	BCS done2_b
-; 	EOR #$ff
-; 	ADC #$01
-; ; 	CLC								; Clear carry flag
-; ; 	ADC r2offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
-; ; 	TAX
-; ; 	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
-; ; 	BVC done2_b ; If not overflovn
-; ; 	TXA
-; ; 	SBC #$19 ;  - 25
-; ; 	TAX
-; done2_b:
-; 	CLC
+index2_b: 	; --- Take the char r1 points to and get placement on rotor2 with offset.
+	SEC 
+	SBC r2offset ; Subtracting offset from it
+	BCS done2_b
+	EOR #$ff
+	ADC #$01
+; 	CLC								; Clear carry flag
+; 	ADC r2offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
 ; 	TAX
-; 	LDA r2start, X
-; 	STA putc					; Print char
-; 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-; index1_b: ; --- 
-; 	SEC 
-; 	SBC r1offset ; Subtracting offset from it
-; 	BCS done1_b
-; 	EOR #$ff
-; 	ADC #$01
-; ; 	CLC								; Clear carry flag
-; ; 	ADC r1offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
-; ; 	TAX 
-; ; 	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
-; ; 	BVC done1_b ; If not overflovn
-; ; 	TXA
-; ; 	SBC #$19 ;  - 25
-; ; 	TAX
-; done1_b:
-; 	CLC
+; 	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+; 	BVC done2_b ; If not overflovn
+; 	TXA
+; 	SBC #$19 ;  - 25
 ; 	TAX
-; 	LDA r1start, X
-; 	STA putc					; Print char
-; 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+done2_b:
+	CLC
+	TAX
+	LDA r2start, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+index1_b: ; --- 
+	SEC 
+	SBC r1offset ; Subtracting offset from it
+	BCS done1_b
+	EOR #$ff
+	ADC #$01
+; 	CLC								; Clear carry flag
+; 	ADC r1offset 			; Adding offset to it ; Now we have a number like (1 to 26) + (1 to 26) in A
+; 	TAX 
+; 	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+; 	BVC done1_b ; If not overflovn
+; 	TXA
+; 	SBC #$19 ;  - 25
+; 	TAX
+done1_b:
+	CLC
+	TAX
+	LDA r1start, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 
 
 
