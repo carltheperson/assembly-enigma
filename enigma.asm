@@ -1,9 +1,13 @@
 #include <stdio.s>
 
-r1start = $AA00
-r2start = $AA00 + 27
-r3start = $AA00 + 54
-refstart = $AA00 + 81
+r1start = $AC00
+r2start = $AC00 + 27
+r3start = $AC00 + 54
+refstart = $AC00 + 81
+
+r1lookup = $AA00
+r2lookup = $AA00 + 27
+r3lookup = $AA00 + 54
 
 temp = $2F
 
@@ -16,6 +20,7 @@ r2rotor_notch = $A ; E. This will decide when r3 will rotate
 
 #include <./../../enigma_config.asm>
 #include <./../../enigma_config_loading.asm>
+#include <./../../enigma_lookup.asm>
 
 LDA #<ISR
 STA $FFFE
@@ -91,9 +96,14 @@ rotate_r3:
 
 
 
+
 ; ------ Passing through the rotors the first time -------
 
 start_indexing:
+	LDX #$0
+	STX r1offset
+	STX r2offset
+	STX r3offset
 	; LDA r1offset
 	; ADC #$30
 	; STA putc
@@ -161,7 +171,7 @@ done3:
 
 
 LDX #"."
-; STX putc
+STX putc
 
 ; ---------- Getting reflected back using the reflector --------
 
@@ -169,7 +179,7 @@ reflection:
 	CLC
 	TAX
 	LDA refstart, X
-	; STA putc					; Print char
+	STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
 
