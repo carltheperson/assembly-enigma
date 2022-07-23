@@ -109,7 +109,6 @@ index1: ; --- Take typed char and get placement on rotor1 with offset.
 done1:
 	CLC
 	LDA r1start, X
-	; STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
 index2: 	; --- Take the char r1 points to and get placement on rotor2 with offset.
@@ -125,7 +124,6 @@ index2: 	; --- Take the char r1 points to and get placement on rotor2 with offse
 done2:
 	CLC
 	LDA r2start, X
-	; STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
 index3: 	; --- Take the char r2 points to and get placement on rotor3 with offset.
@@ -140,15 +138,9 @@ index3: 	; --- Take the char r2 points to and get placement on rotor3 with offse
 	TAX
 done3:
 	CLC
-	; LDX #$2
 	LDA r3start, X
-	; STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
-
-
-LDX #"."
-; STX putc
 
 ; ---------- Getting reflected back using the reflector --------
 
@@ -156,26 +148,17 @@ reflection:
 	CLC
 	TAX
 	LDA refstart, X
-	; STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
 
 
 ; ------ Passing through the rotors the second time (Back) -------
 
-LDX #"."
-; STX putc
-
 start_indexing_b:
 	CLC
 index3_b: 	; --- Take the char r2 points to and get placement on rotor3 with offset.
 	TAX
 	LDA r3lookup, x
-	ADC #$60
-	; STA putc
-	CLC
-	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-	CLC
 	; We now have the letter looked up. Time to offset
 	ADC #$1B 
 	CLC
@@ -195,11 +178,6 @@ done3_b:
 index2_b:
 	TAX
 	LDA r2lookup, x
-	ADC #$60
-	; STA putc
-	CLC
-	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-	CLC
 	; We now have the letter looked up. Time to offset
 	ADC #$1B 
 	CLC
@@ -219,11 +197,6 @@ done2_b:
 index1_b:
 	TAX
 	LDA r1lookup, x
-	ADC #$60
-	; STA putc
-	CLC
-	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-	CLC
 	; We now have the letter looked up. Time to offset. Backwards
 	ADC #$1B 
 	CLC
@@ -242,18 +215,6 @@ done1_b:
 	TXA
 	ADC #$60
 	STA putc
-
-
-
-
-
-
-
-
-		; Print -
-	; LDA #" "
-	; STA putc					; Print char
-	;
 
 done:								; This will loop back to start
 	pla
