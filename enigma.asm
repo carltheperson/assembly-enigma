@@ -94,17 +94,17 @@ rotate_r3:
 ; ------ Passing through the rotors the first time -------
 
 start_indexing:
-	LDA r1offset
-	ADC #$30
-	STA putc
-	LDA r2offset
-	ADC #$30
-	STA putc
-	LDA r3offset
-	ADC #$30
-	STA putc
-	LDA #"-" 
-	STA putc
+	; LDA r1offset
+	; ADC #$30
+	; STA putc
+	; LDA r2offset
+	; ADC #$30
+	; STA putc
+	; LDA r3offset
+	; ADC #$30
+	; STA putc
+	; LDA #"-" 
+	; STA putc
 
 	CLC
 index1: ; --- Take typed char and get placement on rotor1 with offset.
@@ -182,15 +182,11 @@ STX putc
 start_indexing_b:
 	CLC
 index3_b: 	; --- Take the char r2 points to and get placement on rotor3 with offset.
- 	; STA temp
-	; L is in X
-	ADC #$1B ; WHY B
-	; ADC r3offset
+	ADC #$1B 
+	CLC
+	SBC r3offset
+	CLC
 	; (26 + Ø) is in A
-	CLC
-	SBC r3offset ; temp holds L
-	; SBC #$0 ; temp holds L
-	CLC
 	; A is now 0 - 52
 	TAX
 	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
@@ -199,48 +195,55 @@ index3_b: 	; --- Take the char r2 points to and get placement on rotor3 with off
 	SBC #$19
 	CLC
 	TAX
-	
-
-
-	; SEC (ABS)
-	; SBC r1offset ; Subtracting offset from it TODO change back to 3
-	; BCS done3_b
-	; EOR #$ff
-	; ADC #$01
 done3_b:
-	TXA
 	CLC
-	; ADC #$30
-	; STA putc
-	; TAX
+	TXA
 	LDA r3start, X
 	STA putc					; Print char
-	; SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-; index2_b: 	; --- Take the char r1 points to and get placement on rotor2 with offset.
-; 	SEC 
-; 	SBC r2offset ; Subtracting offset from it
-; 	BCS done2_b
-; 	EOR #$ff
-; 	ADC #$01
-; done2_b:
-; 	CLC
-; 	TAX
-; 	LDA r2start, X
-; 	STA putc					; Print char
-; 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-; index1_b: ; --- 
-; 	SEC 
-; 	SBC r1offset ; Subtracting offset from it
-; 	BCS done1_b
-; 	EOR #$ff
-; 	ADC #$01
-; done1_b:
-; 	CLC
-; 	TAX
-; 	LDA r1start, X
-; 	STA putc					; Print char
-; 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+	CLC
+index2_b: 	; --- Take the char r1 points to and get placement on rotor2 with offset.
+	ADC #$1B 
+	CLC
+	SBC r2offset
+	CLC
+	; (26 + Ø) is in A
+	; A is now 0 - 52
+	TAX
+	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+	BVC done2_b ; If not overflovn
+	TXA
+	SBC #$19
+	CLC
+	TAX
+done2_b:
+	CLC
+	TXA
+	LDA r2start, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+	CLC
+index1_b: ; --- 
+	ADC #$1B 
+	CLC
+	SBC r1offset
+	CLC
+	; (26 + Ø) is in A
+	; A is now 0 - 52
+	TAX
+	ADC #$65 ; Done to potentioally overflow. Will overflow if > 25
+	BVC done1_b ; If not overflovn
+	TXA
+	SBC #$19
+	CLC
+	TAX
+done1_b:
+	CLC
+	TXA
+	LDA r1start, X
+	STA putc					; Print char
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+	CLC
 
 
 
