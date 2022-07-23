@@ -42,17 +42,12 @@ loop:
 ISR pha
 
 
-; LDA #$14
-; SEC 
-; SBC #$6
-; BCS continue
-; EOR #$ff
-; ADC #$01
-; continue:
-; CLC
-; ADC #$30
-; STA putc
-
+; Ignore space
+LDA getc
+CMP #" "
+BNE possibly_rotate_r1
+STA putc
+JMP done
 
 ;  ----- Rotate rotors -----
 
@@ -95,27 +90,9 @@ rotate_r3:
 	STX r3offset
 
 
-
-
 ; ------ Passing through the rotors the first time -------
 
 start_indexing:
-	LDX #$0
-	STX r1offset
-	STX r2offset
-	STX r3offset
-	; LDA r1offset
-	; ADC #$30
-	; STA putc
-	; LDA r2offset
-	; ADC #$30
-	; STA putc
-	; LDA r3offset
-	; ADC #$30
-	; STA putc
-	; LDA #"-" 
-	; STA putc
-
 	CLC
 index1: ; --- Take typed char and get placement on rotor1 with offset.
 	LDA getc
@@ -132,7 +109,7 @@ index1: ; --- Take typed char and get placement on rotor1 with offset.
 done1:
 	CLC
 	LDA r1start, X
-	STA putc					; Print char
+	; STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
 index2: 	; --- Take the char r1 points to and get placement on rotor2 with offset.
@@ -148,7 +125,7 @@ index2: 	; --- Take the char r1 points to and get placement on rotor2 with offse
 done2:
 	CLC
 	LDA r2start, X
-	STA putc					; Print char
+	; STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
 index3: 	; --- Take the char r2 points to and get placement on rotor3 with offset.
@@ -165,13 +142,13 @@ done3:
 	CLC
 	; LDX #$2
 	LDA r3start, X
-	STA putc					; Print char
+	; STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
 
 
 LDX #"."
-STX putc
+; STX putc
 
 ; ---------- Getting reflected back using the reflector --------
 
@@ -179,7 +156,7 @@ reflection:
 	CLC
 	TAX
 	LDA refstart, X
-	STA putc					; Print char
+	; STA putc					; Print char
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
 
@@ -187,11 +164,19 @@ reflection:
 ; ------ Passing through the rotors the second time (Back) -------
 
 LDX #"."
-STX putc
+; STX putc
 
 start_indexing_b:
 	CLC
 index3_b: 	; --- Take the char r2 points to and get placement on rotor3 with offset.
+	TAX
+	LDA r3lookup, x
+	ADC #$60
+	; STA putc
+	CLC
+	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
+	CLC
+	; We now have the letter looked up. Time to offset
 	ADC #$1B 
 	CLC
 	SBC r3offset
@@ -206,13 +191,16 @@ index3_b: 	; --- Take the char r2 points to and get placement on rotor3 with off
 	CLC
 	TAX
 done3_b:
-	CLC
 	TXA
-	LDA r3start, X
-	STA putc					; Print char
+index2_b:
+	TAX
+	LDA r2lookup, x
+	ADC #$60
+	; STA putc
+	CLC
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
-index2_b: 	; --- Take the char r1 points to and get placement on rotor2 with offset.
+	; We now have the letter looked up. Time to offset
 	ADC #$1B 
 	CLC
 	SBC r2offset
@@ -227,13 +215,16 @@ index2_b: 	; --- Take the char r1 points to and get placement on rotor2 with off
 	CLC
 	TAX
 done2_b:
-	CLC
 	TXA
-	LDA r2start, X
-	STA putc					; Print char
+index1_b:
+	TAX
+	LDA r1lookup, x
+	ADC #$60
+	; STA putc
+	CLC
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
-index1_b: ; --- 
+	; We now have the letter looked up. Time to offset. Backwards
 	ADC #$1B 
 	CLC
 	SBC r1offset
@@ -248,25 +239,20 @@ index1_b: ; ---
 	CLC
 	TAX
 done1_b:
-	CLC
 	TXA
-	LDA r1start, X
-	STA putc					; Print char
-	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
-	CLC
+	ADC #$60
+	STA putc
 
 
 
 
-; Try setting the rotors to the thing in the video and see what happens
-; Something is wrong with the offset. Imagine the wheels lined up
 
 
 
 
 		; Print -
-	LDA #" "
-	STA putc					; Print char
+	; LDA #" "
+	; STA putc					; Print char
 	;
 
 done:								; This will loop back to start
