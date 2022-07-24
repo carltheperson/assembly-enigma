@@ -18,9 +18,9 @@ r3offset = $0D
 r1rotor_notch = $A ; J.  This will decide when r2 will rotate
 r2rotor_notch = $A ; E. This will decide when r3 will rotate
 
-#include <./../../enigma_config.asm>
-#include <./../../enigma_config_loading.asm>
-#include <./../../enigma_lookup.asm>
+#include <./../../src/config.asm>
+#include <./../../src/config_loading.asm>
+#include <./../../src/lookup.asm>
 
 LDA #<ISR
 STA $FFFE
