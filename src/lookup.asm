@@ -1,56 +1,45 @@
-LDY #$0
-r1_lookup:
-	CLC
-	INY
-	TYA
-	TAX
+; The purpose of this file is to create a sort of lookup table.
+; It is indexed as such:
+; [rotor lookup start addrress] + [letter position] = [letter position]
+; This lookup table allows you to look up the opisite of config_loading.asm
+; Where config_loading.asm maps a letter to what it swaps (e.g. A -> X)
+; This creates a lookup table to index the other way around (e.g. X -> A)
+
+LDX #$0
+r1_lookup_creation:
+	INX
 	LDA r1start, x
 	CLC
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
-	TAX
-	TYA
-	; In A we have Y
-	; In X we have letter for Y
-	STA r1lookup, x ; Storing our index (1 to start then 2, 3, ...) in the place of our letter. 
+	TAY
+	TXA
+	STA r1lookup, y 
+	CPX #$1A
+	BNE r1_lookup_creation
 
-	CPY #$1A
-	BNE r1_lookup; If not 26 repeat
-
-LDY #$0
-r2_lookup:
-	CLC
-	INY
-	TYA
-	TAX
+LDX #$0
+r2_lookup_creation:
+	INX
 	LDA r2start, x
 	CLC
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
-	TAX
-	TYA
-	; In A we have Y
-	; In X we have letter for Y
-	STA r2lookup, x ; Storing our index (1 to start then 2, 3, ...) in the place of our letter. 
-
-	CPY #$1A
-	BNE r2_lookup; If not 26 repeat
+	TAY
+	TXA
+	STA r2lookup, y 
+	CPX #$1A
+	BNE r2_lookup_creation
 
 LDY #$0
-r3_lookup:
-	CLC
-	INY
-	TYA
-	TAX
+r3_lookup_creation:
+	INX
 	LDA r3start, x
 	CLC
 	SBC #$5F					; Converting the letter to a number. e.g. a=1, b=2, z=26
 	CLC
-	TAX
-	TYA
-	; In A we have Y
-	; In X we have letter for Y
-	STA r3lookup, x ; Storing our index (1 to start then 2, 3, ...) in the place of our letter. 
-
-	CPY #$1A
-	BNE r3_lookup; If not 26 repeat
+	TAY
+	TXA
+	STA r3lookup, y 
+	CPX #$1A
+	BNE r3_lookup_creation

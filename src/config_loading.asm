@@ -1,3 +1,9 @@
+; This places the rotor settings defined in config.asm in memory.
+; They are placed in a way such that they can be easily indexed.
+;	To find out which letter a certain rotor position maps to,
+; read the value of the memory position like so:
+; [rotor starting memory address] + [letter postion] = [ASCII letter]
+
 load_r1:
 	LDA #r1_a
 	STA r1start + 1
