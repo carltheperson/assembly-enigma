@@ -1,4 +1,7 @@
-; ROTER 1
+; This is where you configure the rotors.
+; E.i. you set which letters swap which.
+
+; Rotor 1
 r1_a = "b"
 r1_b = "d"
 r1_c = "f"
@@ -26,7 +29,7 @@ r1_x = "s"
 r1_y = "q"
 r1_z = "o"
 
-; ROTER 2
+; Rotor 2
 r2_a = "a"
 r2_b = "j"
 r2_c = "d"
@@ -54,7 +57,7 @@ r2_x = "v"
 r2_y = "o"
 r2_z = "e"
 
-; ROTER 3
+; Rotor 3
 r3_a = "e"
 r3_b = "k"
 r3_c = "m"
@@ -82,7 +85,7 @@ r3_x = "r"
 r3_y = "c"
 r3_z = "j"
 
-; REFLECTOR
+; Reflector
 ref_a = "e"
 ref_b = "j"
 ref_c = "m"
