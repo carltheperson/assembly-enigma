@@ -2,7 +2,9 @@
 
 <p align="center">An <a href="https://en.wikipedia.org/wiki/Enigma_machine">Enigma Machine</a> written in 6502 assembly</p>
 
-<img width="400px" src="enigma-image.jpg" align="center"/>
+<p align="center">
+	<img width="400px" src="enigma-image.jpg"/>
+</p>
 
 # Examples
 
