@@ -6,6 +6,8 @@
 	<img width="400px" src="enigma-image.jpg"/>
 </p>
 
+<p align="center"><b>Read the blog post about this project <a href="carltheperson.com/posts/assembly-enigma/">here</a></b></p>
+
 # Examples
 
 ![example](example.png)
@@ -56,4 +58,3 @@ xa -w -Istdlib/ ../caesar-cipher.asm  && ./x6502 a.o65
 # License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-All images were created by me. Feel free to steal them (same goes for everything else of course).
