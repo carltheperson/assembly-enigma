@@ -6,7 +6,7 @@
 	<img width="400px" src="enigma-image.jpg"/>
 </p>
 
-<p align="center"><b>Read the blog post about this project <a href="carltheperson.com/posts/assembly-enigma/">here</a></b></p>
+<p align="center"><b>Read the blog post about this project <a href="https://carltheperson.com/posts/assembly-enigma/">here</a></b></p>
 
 # Examples
 
